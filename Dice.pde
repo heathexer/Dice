@@ -1,28 +1,45 @@
-void setup()
-{
-	noLoop();
+Die die = new Die();
+
+void setup() {
+	rectMode(CENTER);
+	size(500, 500);
+	stroke(0);
+	fill(0);
 }
-void draw()
-{
-	//your code here
+void draw() {
+	die.roll();
 }
-void mousePressed()
-{
-	redraw();
-}
-class Die //models one single dice cube
-{
-	//variable declarations here
-	Die(int x, int y) //constructor
-	{
-		//variable initializations here
+void mousePressed() {
+	if(!die.accelerating && !die.decelerating) {
+		die.accelerating = true;
 	}
-	void roll()
-	{
-		//your code here
+}
+class Die {
+	boolean accelerating = false;
+	boolean decelerating = false;
+	float acceleration = 1.05;
+	float rotation = 1;
+	Die() {
+		
 	}
-	void show()
-	{
-		//your code here
+	void roll() {
+		background(255);
+		translate(width/2, height/2);
+		rotate(radians(rotation-1));
+		rect(0, 0, 100, 100, 8);
+		if(rotation >= 360) {
+			accelerating = false;
+			decelerating = true;
+		}
+		if(rotation <= 1) {
+			decelerating = false;
+			rotation = 1;
+		}
+		if(accelerating) {
+			rotation *= acceleration;
+		}
+		if(decelerating) {
+			rotation /= acceleration;
+		}
 	}
 }
