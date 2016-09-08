@@ -23,23 +23,29 @@ class Die {
 		
 	}
 	void roll() {
-		background(255);
-		translate(width/2, height/2);
-		rotate(radians(rotation-1));
-		rect(0, 0, 100, 100, 8);
-		if(rotation >= 360) {
+		if(rotation >= 360 && accelerating) {
 			accelerating = false;
 			decelerating = true;
 		}
-		if(rotation <= 1) {
+		if(rotation <= 1 && decelerating) {
 			decelerating = false;
 			rotation = 1;
+			this.show(rotation-1);
 		}
 		if(accelerating) {
 			rotation *= acceleration;
+			this.show(rotation-1);
 		}
 		if(decelerating) {
 			rotation /= acceleration;
+			this.show(rotation+359);
 		}
+		System.out.println(rotation);
+	}
+	void show(float rotPos) {
+		background(255);
+		translate(width/2, height/2);
+		rotate(radians(rotPos));
+		rect(0, 0, 100, 100, 6);
 	}
 }
