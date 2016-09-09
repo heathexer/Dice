@@ -4,7 +4,7 @@ void setup() {
 	rectMode(CENTER);
 	size(500, 500);
 	stroke(0);
-	fill(0);
+	fill(255);
 }
 void draw() {
 	die.roll();
@@ -17,28 +17,32 @@ void mousePressed() {
 class Die {
 	boolean accelerating = false;
 	boolean decelerating = false;
-	float acceleration = 1.05;
-	float rotation = 1;
+	float acceleration = 1.1;
+	float rotation = 0;
+	float rotateAmount = 1;
 	Die() {
 		
 	}
 	void roll() {
+		this.show(rotation);
 		if(rotation >= 360 && accelerating) {
 			accelerating = false;
 			decelerating = true;
+			rotation = 360;
+			rotation += rotateAmount;
 		}
-		if(rotation <= 1 && decelerating) {
+		if(rotation >= 720 && decelerating) {
 			decelerating = false;
-			rotation = 1;
-			this.show(rotation-1);
+			rotation = 0;
+			rotateAmount = 1;
 		}
 		if(accelerating) {
-			rotation *= acceleration;
-			this.show(rotation-1);
+			rotateAmount *= acceleration;
+			rotation += rotateAmount;
 		}
 		if(decelerating) {
-			rotation /= acceleration;
-			this.show(rotation+359);
+			rotateAmount /= acceleration;
+			rotation += rotateAmount;
 		}
 		System.out.println(rotation);
 	}
