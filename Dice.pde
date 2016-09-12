@@ -1,27 +1,32 @@
-Die die = new Die();
-
 void setup() {
 	rectMode(CENTER);
 	size(500, 500);
 	stroke(0);
 	fill(255);
 }
+
+Die die = new Die(width/2, width/2, 100);
+
 void draw() {
 	die.roll();
 }
+
 void mousePressed() {
 	if(!die.accelerating && !die.decelerating) {
 		die.accelerating = true;
 	}
 }
 class Die {
+	int x, y, size;
 	boolean accelerating = false;
 	boolean decelerating = false;
 	float acceleration = 1.1;
 	float rotation = 0;
 	float rotateAmount = 1;
-	Die() {
-		
+	Die(int xPos, int yPos, int size) {
+		this.x = xPos;
+		this.y = yPos;
+		this.size = size;
 	}
 	void roll() {
 		this.show(rotation);
@@ -44,12 +49,15 @@ class Die {
 			rotateAmount /= acceleration;
 			rotation += rotateAmount;
 		}
-		System.out.println(rotation);
+		System.out.println(this.size);
 	}
 	void show(float rotPos) {
 		background(255);
-		translate(width/2, height/2);
+		translate(this.x, this.y);
 		rotate(radians(rotPos));
-		rect(0, 0, 100, 100, 6);
+		rect(0, 0, this.size, this.size, this.size/15);
+	}
+	void click() {
+		// if(mouseX >= this.x-)
 	}
 }
