@@ -1,11 +1,12 @@
 void setup() {
-	rectMode(CENTER);
 	size(500, 500);
+	rectMode(CENTER);
 	stroke(0);
 	fill(255);
+	die = new Die(width/2, height/2, 500);
 }
 
-Die die = new Die(width/2, width/2, 100);
+Die die;
 
 void draw() {
 	die.roll();
@@ -49,7 +50,7 @@ class Die {
 			rotateAmount /= acceleration;
 			rotation += rotateAmount;
 		}
-		System.out.println(this.size);
+		// System.out.println(this.size);
 	}
 	void show(float rotPos) {
 		background(255);
