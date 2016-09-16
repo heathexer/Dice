@@ -1,12 +1,13 @@
 Die[] dice = new Die[25];
-//dice[i] = new Die();
+int sum;
 
-//int j = 75; i<= 775; j+= 125
 void setup() {
-	size(800, 800);
+	size(650, 700);
 	rectMode(CENTER);
 	stroke(0);
 	fill(255);
+	textSize(50);
+	textAlign(CENTER, BOTTOM);
 	for(int i = 0; i < 5; i++) {
 		for(int j = 0; j< 5; j++) {
 			dice[i*5+j] = new Die(75+125*i, 75+125*j, 100);
@@ -16,9 +17,12 @@ void setup() {
 
 void draw() {
 	background(255);
+	fill(255);
 	for(int i = 0; i<dice.length; i++) {
 		dice[i].roll();
 	}
+	// fill(0);
+	text("Sum: " + sumDice(), width/2, height);
 }
 
 void mousePressed() {
@@ -26,6 +30,15 @@ void mousePressed() {
 		dice[i].click();
 	}
 }
+
+int sumDice() {
+	sum = 0;
+	for(int i = 0; i < dice.length; i++) {
+		sum += dice[i].number;
+	}
+	return sum;
+}
+
 
 class Die {
 	int x, y, size, number;
