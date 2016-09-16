@@ -15,6 +15,7 @@ void setup() {
 }
 
 void draw() {
+	background(255);
 	for(int i = 0; i<dice.length; i++) {
 		dice[i].roll();
 	}
@@ -40,41 +41,47 @@ class Die {
 		this.number = (int)(Math.random()*6)+1;
 	}
 	void roll() {
-		this.show(rotation);
+		this.show();
+		this.showNumber();
 		//done accelerating
-		if(rotation >= 360 && accelerating) {
-			accelerating = false;
-			decelerating = true;
-			rotation = 360;
-			rotation += rotateAmount;
+		if(this.rotation >= 360 && this.accelerating) {
+			this.accelerating = false;
+			this.decelerating = true;
+			this.rotation = 360;
+			this.rotation += rotateAmount;
 			this.number = (int)(Math.random()*6)+1;
 		}
 		//done decelerating
-		if(rotation >= 720 && decelerating) {
-			decelerating = false;
-			rotation = 0;
-			rotateAmount = 1;
+		if(this.rotation >= 720 && this.decelerating) {
+			this.decelerating = false;
+			this.rotation = 0;
+			this.rotateAmount = 1;
 		}
-		if(accelerating) {
-			rotateAmount *= acceleration;
-			rotation += rotateAmount;
+		if(this.accelerating) {
+			this.rotateAmount *= this.acceleration;
+			this.rotation += this.rotateAmount;
 		}
-		if(decelerating) {
-			rotateAmount /= acceleration;
-			rotation += rotateAmount;
+		if(this.decelerating) {
+			this.rotateAmount /= this.acceleration;
+			this.rotation += this.rotateAmount;
 		}
-		this.showNumber();
-		System.out.println(this.number);
+
+		// System.out.println(this.number);
 	}
 
-	void show(float rotPos) {
-		background(255);
+	void show() {
+		stroke(0);
+		pushMatrix();
 		translate(this.x, this.y);
-		rotate(radians(rotPos));
+		rotate(radians(this.rotation));
 		rect(0, 0, this.size, this.size, this.size/15);
+		popMatrix();
 	}
 
 	void showNumber() {
+		pushMatrix();
+		translate(this.x, this.y);
+		rotate(radians(this.rotation));
 		if(this.number == 1) {
 			ellipse(0, 0, this.size/5, this.size/5);
 		} else if(this.number == 2) {
@@ -102,7 +109,8 @@ class Die {
 			ellipse(+this.size/4, +this.size/4, this.size/5, this.size/5);
 			ellipse(+this.size/4, -this.size/4, this.size/5, this.size/5);
 			ellipse(-this.size/4, +this.size/4, this.size/5, this.size/5);
-		} 
+		}
+		popMatrix();
 	}
 	void click() {
 		if(mouseX >= this.x-(this.size/2) && mouseX <= this.x+(this.size/2) && mouseY >= this.y-(this.size/2) && mouseY <= this.y+(this.size/2) && !this.accelerating && !this.decelerating) {
