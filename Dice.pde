@@ -21,7 +21,7 @@ void draw() {
 	for(int i = 0; i<dice.length; i++) {
 		dice[i].roll();
 	}
-	// fill(0);
+	fill(0);
 	text("Sum: " + sumDice(), width/2, height);
 }
 
